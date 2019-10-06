@@ -82,21 +82,7 @@
             center:myLatLng,
             radius: Math.sqrt(50) * 100
           });
-          for (var i = 0; i < markerInfo.length; i++) {
-    var myLatLng = new google.maps.LatLng(marker[i][0],markerInfo[i][1]);
-    var title = markerInfo[i][2];
-
-    var marker = new google.maps.Marker({
-        position: myLatLng,
-        animation: google.maps.Animation.DROP,
-        map: map,               
-        title:title,
-        icon: markerUrl
-    });
-    google.maps.event.addListener(marker, 'click', function() {
-        console.log('test');        
-    });
-};
+        
     </script>
 </div>
 {% endfor %}
