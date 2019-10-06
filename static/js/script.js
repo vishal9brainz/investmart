@@ -8,7 +8,7 @@ function createMap () {
 
   map = new google.maps.Map(document.getElementById('map'), options);
 
-  var input = document.getElementById('search');
+  var input = document.getElementById('search_place');
   var searchBox = new google.maps.places.SearchBox(input);
   map.addListener('bounds_changed', function() {
     searchBox.setBounds(map.getBounds());

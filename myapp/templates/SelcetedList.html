@@ -68,7 +68,7 @@
             <ul id='search-results'>
                 {% for result in results %}
                 <div class="" style="padding: 20px; float: left; ">
-                    <div class="card" style="width: 18rem;min-height: 300px;border-radius: 15px!important;
+                    <div class="card" style="width: 18rem;min-height: 350px;border-radius: 15px!important;
                     border-top-left-radius: 15px !important;
                     border-top-right-radius: 15px !important;
                     border-bottom-right-radius: 15px !important;
@@ -76,9 +76,13 @@
                     box-shadow: 0 6px 16px 0 rgba(0,0,0,.15),0 6px 16px 0 rgba(0,0,0,.12)!important;">
                         <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
                         <div class="card-body"
-                            style="height: 100%;background-image: url(/static/images/imagedefault.jpg);background-size: auto;background-repeat: no-repeat;">
+                            style="height: 100%;">
                             <h5 class="card-title">{{ result.title }}</h5>
-                            <p class="card-text">{{ result.description }}</p>
+                            <p class="card-text" style="height: 200px;overflow-x: auto;">{{ result.description }}</p>
+                            <!-- <div style="height: 120px;" class="col">
+                                    <img src="images/not_image.jpg" height="100" width="100" style="float: left;">
+                                    <img src="images/not_image.jpg" height="100" width="100" style="float: right;">
+                            </div> -->
                             <div class="" style="position: absolute;right: 20px;bottom: 20px;">
                                 <a href="{{ result.id }}/" class="btn btn-primary">Explore more</a>
                             </div>
