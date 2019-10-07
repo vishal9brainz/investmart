@@ -8,7 +8,13 @@ class myapp(models.Model):
     longitude=models.CharField(max_length=1000,default=0)
     latitude=models.CharField(max_length=1000,default=0)
     placetitle=models.CharField(max_length=1000,default= ' ')
+    placetitle2=models.CharField(max_length=1000,default=' ')
+    placetitle3=models.CharField(max_length=1000,default=' ')
+    placetitle4=models.CharField(max_length=1000,default=' ')
     placevalue=models.CharField(max_length=1000,default=' ')
+    placevalue2=models.CharField(max_length=1000,default=' ')
+    placevalue3=models.CharField(max_length=1000,default=' ')
+    placevalue4=models.CharField(max_length=1000,default=' ')
 
     class Meta:
         db_table = 'placeDb'

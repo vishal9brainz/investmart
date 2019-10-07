@@ -14,7 +14,7 @@ class UploadFileForm(forms.Form):
 class myappForm(ModelForm):
     class Meta:
         model = myapp
-        fields = ["title","description","latitude","longitude","placetitle","placevalue"]
+        fields = ["title","description","latitude","longitude","placetitle","placevalue","placetitle2","placetitle3","placetitle4","placevalue2","placevalue3","placevalue4"]
 
 #Form to Form Image and Video Uploading
 class imgVDFileForm(forms.Form):

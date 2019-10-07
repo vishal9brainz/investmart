@@ -222,7 +222,14 @@ def Insert_data(request):
                                 longitude=data_form.cleaned_data["longitude"],
                                 latitude=data_form.cleaned_data["latitude"],
                                 placevalue=data_form.cleaned_data["placevalue"],
-                                placetitle=data_form.cleaned_data["placetitle"]
+                                placetitle=data_form.cleaned_data["placetitle"],
+                                placevalue2=data_form.cleaned_data["placevalue2"],
+                                placetitle2=data_form.cleaned_data["placetitle2"],
+                                placevalue3=data_form.cleaned_data["placevalue3"],
+                                placetitle3=data_form.cleaned_data["placetitle3"],
+                                placevalue4=data_form.cleaned_data["placevalue4"],
+                                placetitle4=data_form.cleaned_data["placetitle4"]
+                                
                             )
                 else:                                                  #if place id none then add the new data 
                     db_ptr = myapp(
@@ -231,7 +238,13 @@ def Insert_data(request):
                                 longitude=data_form.cleaned_data["longitude"],
                                 latitude=data_form.cleaned_data["latitude"],
                                 placevalue=data_form.cleaned_data["placevalue"],
-                                placetitle=data_form.cleaned_data["placetitle"]
+                                placetitle=data_form.cleaned_data["placetitle"],
+                                placevalue2=data_form.cleaned_data["placevalue2"],
+                                placetitle2=data_form.cleaned_data["placetitle2"],
+                                placevalue3=data_form.cleaned_data["placevalue3"],
+                                placetitle3=data_form.cleaned_data["placetitle3"],
+                                placevalue4=data_form.cleaned_data["placevalue4"],
+                                placetitle4=data_form.cleaned_data["placetitle4"]
                             )
                 db_ptr.save()
 
@@ -275,7 +288,7 @@ def admin_result(request,num=0,message=""):
             form = imgVDFileForm()                                        #loading imgVDFileForm form for taking in new image or vedio input
             message = "Update Place Data Using the Form above . . ." if message == "" else message
 
-            values = { "title" : data.title , "description" : data.description , "place_id" : num ,"message" : message ,"latitude":data.latitude,'longitude':data.longitude,'placetitle':data.placetitle,'placevalue':data.placevalue}
+            values = { "title" : data.title , "description" : data.description , "place_id" : num ,"message" : message ,"latitude":data.latitude,'longitude':data.longitude,'placetitle':data.placetitle,'placevalue':data.placevalue,'placetitle2':data.placetitle2,'placevalue2':data.placevalue2,'placetitle3':data.placetitle3,'placevalue3':data.placevalue3,'placetitle4':data.placetitle4,'placevalue4':data.placevalue4gt }
             res = { "data_form" : data_form, "form" : form , "imgData" : imgData, "value":values , "vdoData" : vdoData}
             return render(request,'admin_result.html',{'res':res})        #rendering admin_result.html 
 
@@ -341,7 +354,6 @@ def upload(request):
 
 #this will be called by ajax_script.js using AJAX --- to get the result of the searched text in the home
 def search_titles(request):
-    
     # if request.method == 'POST':
     #     search_text = request.POST['search_text']
     #     results = myapp.objects.values_list('id').get(title=search_text)
