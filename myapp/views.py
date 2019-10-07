@@ -288,7 +288,7 @@ def admin_result(request,num=0,message=""):
             form = imgVDFileForm()                                        #loading imgVDFileForm form for taking in new image or vedio input
             message = "Update Place Data Using the Form above . . ." if message == "" else message
 
-            values = { "title" : data.title , "description" : data.description , "place_id" : num ,"message" : message ,"latitude":data.latitude,'longitude':data.longitude,'placetitle':data.placetitle,'placevalue':data.placevalue,'placetitle2':data.placetitle2,'placevalue2':data.placevalue2,'placetitle3':data.placetitle3,'placevalue3':data.placevalue3,'placetitle4':data.placetitle4,'placevalue4':data.placevalue4gt }
+            values = { "title" : data.title , "description" : data.description , "place_id" : num ,"message" : message ,"latitude":data.latitude,'longitude':data.longitude,'placetitle':data.placetitle,'placevalue':data.placevalue,'placetitle2':data.placetitle2,'placevalue2':data.placevalue2,'placetitle3':data.placetitle3,'placevalue3':data.placevalue3,'placetitle4':data.placetitle4,'placevalue4':data.placevalue4}
             res = { "data_form" : data_form, "form" : form , "imgData" : imgData, "value":values , "vdoData" : vdoData}
             return render(request,'admin_result.html',{'res':res})        #rendering admin_result.html 
 
