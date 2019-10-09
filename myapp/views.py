@@ -354,44 +354,34 @@ def upload(request):
 
 #this will be called by ajax_script.js using AJAX --- to get the result of the searched text in the home
 def search_titles(request):
-    # if request.method == 'POST':
-    #     search_text = request.POST['search_text']
-    #     results = myapp.objects.values_list('id').get(title=search_text)
-    #     try:
-    #         res=imageLoc.objects.values_list('imageLocation').get(place_id=results[0])
-    #         res=res[0]
-    #     except imageLoc.DoesNotExist:
-    #         res=""
-    #     try:
-    #         types=VideoLoc.objects.values_list('vedioLocation').get(place_id=results[0])
-    #         types=types[0]
-    #     except VideoLoc.DoesNotExist:
-    #         types=""
-       
-    #     response=myapp.objects.values_list('longitude','latitude').get(title=search_text)
-    # else:
-    #     search_text = ''
-    #storing top "6" records containing that search text  
-    search_text = request.POST['search_text']   
-    articles = myapp.objects.filter(title__icontains=str(search_text))[:1]
-    #vard=myapp.objects.values_list('id').get(title=search_text)
-    try:
-        images=imageLoc.objects.values_list('imageLocation').get(place_id=articles[0].id)
-        a="media/"+str(images[0])
-        images=[a]
-    except imageLoc.DoesNotExist:
-        images=["static/images/not_image.jpg"]
-        pass
-    try:
-        videos=VideoLoc.objects.values_list('vedioLocation').get(place_id=articles[0].id)
-        b="media/"+str(videos[0])
-        videos=[b]
-        isVideo=1
-    except:
-        isVideo=0
-        videos=["static/images/video_not.jpg"]
-        pass
-    return render_to_response('ajax_search.html',{'articles':articles,'images':images[0],'videos':videos[0],'isVideo':isVideo,'lat':articles[0].latitude,'long':articles[0].longitude})         #rendering these results in the Home
+    search_text = request.POST['search_text']
+    artical_dic = {}
+    articles = myapp.objects.filter(title__icontains=str(search_text))
+    for a in articles:
+        try:
+            image=list(imageLoc.objects.values_list('imageLocation',flat=True).filter(place_id=a.id))
+            for p in range(0,len(image)):
+                image[p]="media/"+str(image[p])
+        except imageLoc.DoesNotExist:
+            image=["static/images/not_image.jpg"]            
+            pass
+        artical_dic.update({a.id:
+        {
+            'title':a.title,
+            'description':a.description,
+            'latitude':a.latitude,
+            'longitude':a.longitude,
+            'placetitle':a.placetitle,
+            'placetitle2':a.placetitle2,
+            'placetitle3':a.placetitle3,
+            'placetitle4':a.placetitle4,
+            'placevalue':a.placevalue,
+            'placevalue2':a.placevalue2,
+            'placevalue3':a.placevalue3,
+            'placevalue4':a.placevalue4,  
+            'image':image
+        }})
+    return render_to_response('ajax_search.html',{'articles':artical_dic})         #rendering these results in the Home
 
 #this is Called when a Place card is clicked for more, shows data and images of the particular place ---and user can only add images/videos
 def result(request,num=0,message="Upload Images & Vedios Using the Form above . . ."):

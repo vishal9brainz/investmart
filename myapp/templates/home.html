@@ -283,7 +283,6 @@ function searchSuccess(data, textStatus, jqXHR) {
    
 
    </script>
- 
     <script>
             $(".mobile.menu-link").on("click", function(){
              $('#mobile-menu').addClass('open');
@@ -293,11 +292,34 @@ function searchSuccess(data, textStatus, jqXHR) {
                
              $('#mobile-menu').removeClass('open');
             });
-            $("#open-menu").on("click", function(){
-               
-             
+            $("#open-menu").on("click", function(){ 
             });
-          
+   </script>
+   <script type="text/javascript">
+      $(document).on('click','#viewMap',function(){
+         lat=$(this).attr('lat');
+         long=$(this).attr('long');
+         var myLatLng = {lat: parseFloat(lat), lng: parseFloat(long)};
+         var map = new google.maps.Map(document.getElementById('map'), {
+         		zoom: 16,
+         		center: myLatLng,
+                mapTypeId: 'terrain'
+               });
+         var marker = new google.maps.Marker({
+         	position: myLatLng,
+             map: map,
+         });
+         var cityCircle = new google.maps.Circle({
+            strokeColor: '#FF0000',
+            strokeOpacity: 0.8,
+            strokeWeight: 4,
+            fillColor: '#FF0000',
+            fillOpacity: 0.15,
+            map: map,
+            center:myLatLng,
+            radius: Math.sqrt(50) * 100
+          });
+      });
    </script>
 </body>
 
