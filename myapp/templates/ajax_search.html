@@ -35,6 +35,10 @@
                     </button>
                     <div id="demo" class="collapse">
                             {{ v.description }}
+                            {% for l in v.descriptions %}
+                            <span>{{ l }}</span>
+                            {% endfor %}
+                            <span id="desc{{ k }}"></span><i class="fa fa-edit" data-toggle="modal" data-target="#myModal" onclick="addToValues('{{ k }}','{{v.description}}')"></i>
                     </div>
                 </div>
                 <div class="col">
@@ -44,9 +48,34 @@
                                         <img src="{{ i }}" style="height: 50px;width: 50px;">
                                 </div>
                                 {% endfor %}
-                                <!-- <input type="hidden" id="lat" value="{{ lat }}">
-                                <input type="hidden" id="long" value="{{ long }}"> -->
-                        </div>                                                 
+                        </div> 
+                        <div class="row"><br>
+                            {% for j in v.video %}
+                                {% if j == "static/images/video_not.jpg" %}
+                                <div class="col">
+                                    <img src="{{ j }}" style="height: 50px;width: 50px;">
+                                </div>
+
+                                {% else %}
+                                <div class="col">
+                                    <video src="{{ j }}" controls style="height: 200px;width: 200px;"></video>
+                                </div>
+                                {% endif %}
+                            {% endfor %} 
+                    </div>              
+                    <div class="col">
+                            <div class="input-group">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                                    </div>
+                                    <div class="custom-file">
+                                      <input type="file" class="custom-file-input" id="inputGroupFile01"
+                                        aria-describedby="inputGroupFileAddon01">
+                                      <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                    </div>
+                                  </div>
+                            <a href="home/{{ k }}/" class="btn btn-primary">Upload Image or Video</a>
+                    </div>                                      
                 </div>
               </div>
               <div class="row" style="justify-content: flex-end;

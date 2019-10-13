@@ -113,9 +113,9 @@
                             </div>
                         </div>
                         <div class="row" style="padding-bottom: 5px;">
-                            <div class="fieldWrapper">
+                            <div class="fieldWrapper" style="display: none;">
                                 {{ form.header.errors }}
-                                <label for="{{ form.header.id_for_label }}">Does it contain Header
+                                <label for="{{ form.header.id_for_label }}" style="display: none;">Does it contain Header
                                     ?:</label>
                                 {{ form.header }}
                             </div>
@@ -135,6 +135,24 @@
                                     Column
                                     ?</label>
                                 {{ form.description }}
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom: 5px;">
+                            <div class="fieldWrapper">
+                                {{ form.latitude.errors }}
+                                <label for="{{ form.latitude.id_for_label }}">Does it contain latitude
+                                    Column
+                                    ?</label>
+                                {{ form.latitude }}
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom: 5px;">
+                            <div class="fieldWrapper">
+                                {{ form.longitude.errors }}
+                                <label for="{{ form.longitude.id_for_label }}">Does it contain longitude
+                                    Column
+                                    ?</label>
+                                {{ form.longitude }}
                             </div>
                         </div>
                         <div class="row">

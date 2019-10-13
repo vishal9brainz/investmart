@@ -25,7 +25,11 @@ urlpatterns = [
     path('Approvedlist/',views.Approvedlist,name='Approvedlist'),
     path('Approvedlist/<int:num>/',views.admin_result,name='admin_result'),
     url(r'csvUpload/',views.csvUpload,name='csvUpload'),
+    path(r'updateDescription',views.updateDescription,name='updateDescription'),
+    path(r'unapproved',views.ApprovedCards,name='ApprovedCards'),
+    path(r'deletecards',views.deleteCards,name='deleteCards'),
     url(r'status',views.status,name='status'),
+   
 
 
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

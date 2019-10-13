@@ -95,7 +95,7 @@ label {
                     </nav>
             
                     <div class="alert alert-info container" style="text-align: center;width: max-content;height: max-content;padding: 0px ;border: none;">
-                        <strong>{{ message }}</strong>
+                        <strong>{{ res.message }}</strong>
                     </div>
                 </div>
         <form method="POST" action="{% url 'Insert_data' %}" enctype="multipart/form-data">
@@ -111,7 +111,7 @@ label {
                                         {{ res.data_form.title.errors }}
                                         <label for="{{ res.data_form.title.id_for_label }}"> Title :</label>
                                         <br/>
-                                        {{ res.data_form.title }}
+                                        <input type="text" name="title" maxlength="1000" required id="id_title">
                                         {{ res.data_form.help_text }}
                                     </div>
                                 </div>
@@ -125,10 +125,8 @@ label {
                                         {{ res.data_form.description.errors }}
                                         <label for="{{ res.data_form.description.id_for_label }}"> Description :</label>
                                         <br/>
-                                        <textarea rows="4" name="description" value="{{  res.data_form.help_text }}"
-                                        maxlength="1000" required id="id_description" cols="50">
-                                            </textarea>
-                                        <!-- <input type="text" > -->
+                                            <textarea rows="4" name="description" maxlength="1000" id="id_description" cols="50" required></textarea>
+                                            <!-- <input type="text" > -->
                                         <!-- {{ res.data_form.help_text }} -->
                                     </div>
                                 </div>

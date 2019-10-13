@@ -9,6 +9,8 @@ class UploadFileForm(forms.Form):
     header = forms.BooleanField(label="Does CSV contain Header ?", required = False)
     title = forms.BooleanField(label="Does it contain title ?", required = False)
     description = forms.BooleanField(label="Does it contain description ?", required = False)
+    latitude = forms.BooleanField(label="Does it contain latitude ?", required = False)
+    longitude = forms.BooleanField(label="Does it contain longitude ?", required = False)
 
 #Form to access myapp Model(DB) 
 class myappForm(ModelForm):

@@ -42,8 +42,7 @@
                                             {{ res.data_form.description.errors }}
                                             <label for="{{ res.data_form.description.id_for_label }}"> Description
                                                 :</label>
-                                            <input type="text" name="description" value="{{ res.value.description }}"
-                                                maxlength="1000" required id="id_description">
+                                            <textarea type="text" name="description" maxlength="1000" required id="id_description">{{ res.value.description }} </textarea>
                                             {{ res.data_form.help_text }}
                                         </div>
                                     </div>
@@ -88,7 +87,7 @@
                                             <label for="{{ res.data_form.placetitle.id_for_label }}"> Title 1
                                                 :</label>
                                             <input type="text" name="placetitle" value="{{ res.value.placetitle }}"
-                                                maxlength="1000" required id="id_placetitle">
+                                                maxlength="1000" id="id_placetitle">
                                             {{ res.data_form.help_text }}
                                         </div>
                                     </div>
@@ -103,7 +102,7 @@
                                             <label for="{{ res.data_form.placevalue.id_for_label }}"> Value 1
                                                 :</label>
                                             <input type="text" name="placevalue" value="{{ res.value.placevalue }}"
-                                                maxlength="1000" required id="id_placevalue">
+                                                maxlength="1000" id="id_placevalue">
                                             {{ res.data_form.help_text }}
                                         </div>
                                     </div>
@@ -118,7 +117,7 @@
                                             <label for="{{ res.data_form.placetitle2.id_for_label }}"> Title 2
                                                 :</label>
                                             <input type="text" name="placetitle2" value="{{ res.value.placetitle2 }}"
-                                                maxlength="1000" required id="id_placetitle2">
+                                                maxlength="1000" id="id_placetitle2">
                                             {{ res.data_form.help_text }}
                                         </div>
                                     </div>
@@ -133,7 +132,7 @@
                                             <label for="{{ res.data_form.placevalue2.id_for_label }}"> Value 2
                                                 :</label>
                                             <input type="text" name="placevalue2" value="{{ res.value.placevalue2 }}"
-                                                maxlength="1000" required id="id_placevalue2">
+                                                maxlength="1000" id="id_placevalue2">
                                             {{ res.data_form.help_text }}
                                         </div>
                                     </div>
@@ -148,7 +147,7 @@
                                             <label for="{{ res.data_form.placetitle3.id_for_label }}"> Title 3
                                                 :</label>
                                             <input type="text" name="placetitle3" value="{{ res.value.placetitle3 }}"
-                                                maxlength="1000" required id="id_placetitle3">
+                                                maxlength="1000" id="id_placetitle3">
                                             {{ res.data_form.help_text }}
                                         </div>
                                     </div>
@@ -163,7 +162,7 @@
                                             <label for="{{ res.data_form.placevalue3.id_for_label }}"> Value 3
                                                 :</label>
                                             <input type="text" name="placevalue3" value="{{ res.value.placevalue3 }}"
-                                                maxlength="1000" required id="id_placevalue3">
+                                                maxlength="1000" id="id_placevalue3">
                                             {{ res.data_form.help_text }}
                                         </div>
                                     </div>
@@ -178,7 +177,7 @@
                                             <label for="{{ res.data_form.placetitle4.id_for_label }}"> Title 4
                                                 :</label>
                                             <input type="text" name="placetitle4" value="{{ res.value.placetitle4 }}"
-                                                maxlength="1000" required id="id_placetitle4">
+                                                maxlength="1000" id="id_placetitle4">
                                             {{ res.data_form.help_text }}
                                         </div>
                                     </div>
@@ -193,7 +192,7 @@
                                             <label for="{{ res.data_form.placevalue4.id_for_label }}"> Value 4
                                                 :</label>
                                             <input type="text" name="placevalue4" value="{{ res.value.placevalue4 }}"
-                                                maxlength="1000" required id="id_placevalue4">
+                                                maxlength="1000" id="id_placevalue4">
                                             {{ res.data_form.help_text }}
                                         </div>
                                     </div>
@@ -246,6 +245,9 @@
                             <div class="button-container">
                                 <a style="text-decoration: none" href="{% url 'index' %}">
                                     <button type="button" class="button" value="Go back">Go Back</button>
+                                </a>
+                                <a style="text-decoration: none" href="/adminpanel/0/">
+                                    <button type="button" class="button" value="Go back" style="margin-left:82px;">Add More Place</button>
                                 </a>
                             </div>
                         </div>
@@ -331,6 +333,32 @@
                                 </div>
                                 {% endfor %}
                             </div>
+                            <div id=''>
+                                    {% for a in res.desData %}
+                                    <div style="width: 18rem;
+                                    min-height: 300px;
+                                    margin: 6px;
+                                    border: 1px solid;">
+                                      <h6 style="min-height: 250px">{{  a.descriptionPlace }}</h6>
+                                      <div style="border-top: 1px solid;padding-top:4px"> 
+                                          <div style="width: 49%;float: left;text-align: center">
+                                                <input id={{ a.id }}status name="search"
+                                                onclick='ApprovedCards("{{ a.id }}")'
+                                                class="" type="button" value="Approved">
+                                            </input>
+                                          </div>
+                                          <div style="width: 49%;float:right;text-align: center;">
+                                                <input id={{ a.id }}status name="search"
+                                                onclick='DeleteCards("{{ a.id }}")'
+                                                class="" type="button" value="Delete">
+                                            </input>
+                                          </div>
+                                      </div>
+                                                                   
+                                </div>
+                                  
+                                    {% endfor %}
+                                </div>
                         </div>
                     </div>
                     <div class="col-1"></div>
@@ -340,6 +368,36 @@
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="/static/js/Result_script.js"></script>
+    <script type="text/javascript">
+        function ApprovedCards(value){
+            $.ajax({
+            type: "POST",
+            url: '/unapproved',
+            data: {
+                'place_id':value,
+                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success:function(response){
+                alert(response);
+                location.reload(true) 
+            }
+        });
+        }
+        function DeleteCards(value){
+            $.ajax({
+            type: "POST",
+            url: '/deletecards',
+            data: {
+                'place_id':value,
+                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success:function(response){
+                alert(response);
+                location.reload(true) 
+            }
+        });
+        }   
+    </script>
 </body>
 
 </html>

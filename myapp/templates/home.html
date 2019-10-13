@@ -231,6 +231,27 @@
                 </div>
              </footer>
     </div>
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog">
+      
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+             <h4>Change Description</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+             <p class="desc"></p>
+            <textarea name="description_status" id="description_status" placeholder="Enter Your Description Here.." style="width: 450px;height: 100px;"></textarea>
+         </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-success" id="placeData">Update</button>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
 
     <!-- Bootstrap scripts. -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -247,13 +268,14 @@
     <script src="static/js/script.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBEHCdvSJx0OAfeOp-MkfXBXVMzOrH64OY&callback=createMap&libraries=places,visualization,geometry&sensor=false"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBEHCdvSJx0OAfeOp-MkfXBXVMzOrH64OY&callback=createMap&libraries=places"
         async defer></script>
 
    <script type="text/javascript">
    
    $(function () {
     $('#search_place').keyup(function () {
+      if(event.key === 'Enter') {
         // called when key is pressed and a ajax request will be called in url "search" with JSon object with nessary details for backend
         if ($('#search_place').val() != "") {
             $.ajax({
@@ -271,6 +293,7 @@
         {
             $('#search-results').html("");
         }
+      }
     });
 
 });
@@ -320,6 +343,38 @@ function searchSuccess(data, textStatus, jqXHR) {
             radius: Math.sqrt(50) * 100
           });
       });
+   </script>
+   <script type="text/javascript">
+      function addToValues(key,value){
+         $('.desc').text(value);
+         $('#placeData').attr('myPlace',key);
+      }
+   </script>
+   <script type="text/javascript">
+    $(document).on('click','#placeData',function(){
+       if($('#description_status').val()==""){
+          alert("Please Enter Description");
+          return false;
+       }
+       mydata=$(this).attr('myplace')
+      $.ajax({
+         type: "POST",
+         url: "updateDescription",
+         data: {
+            'place_id':$(this).attr('myplace'),
+            'description':$('#description_status').val(),
+            'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+         },
+         success:function(response){
+            var myid='#desc'+mydata;
+            $(myid).append(response);
+            $('#description_status').val('');
+            alert('Your Response Has Been Recorded Wait For Approvel');
+            $("#myModal .close").trigger('click');
+         }
+      });
+
+    });
    </script>
 </body>
 

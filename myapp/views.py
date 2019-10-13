@@ -1,6 +1,6 @@
 from django.shortcuts import render , render_to_response, redirect
 from django.http import HttpResponse
-from .models import myapp , imageLoc , VideoLoc
+from .models import myapp , imageLoc , VideoLoc , Description
 from django.views.decorators.csrf import csrf_exempt
 from .forms import UploadFileForm , myappForm ,imgVDFileForm , LoginForm
 from django.contrib.auth import authenticate, login
@@ -117,11 +117,12 @@ def UnApprovedlist(request):
     if request.user.is_authenticated:
         imgData = imageLoc.objects.filter(status = "UnApproved")         #collecting all unapproved images
         vdoData = VideoLoc.objects.filter(status = "UnApproved")         ##collecting all unapproved videos
+        desData=Description.objects.filter(status=0)
 
         place_ids = list(set(int(entry.place_id) for entry in imgData))         #making a set of ids of these unapproved images
         place_ids_1 = list(set(int(entry.place_id) for entry in vdoData))       #making a set of ids of these unapproved video
-        total_place_ids = list(set(place_ids + place_ids_1))                    #making set of all these images and video ids
-        
+        place_ids_2=list(set(int(entry.place_id) for entry in desData))
+        total_place_ids = list(set(place_ids + place_ids_1 + place_ids_2))                    #making set of all these images and video ids
         results = []
         for idx in total_place_ids:
             try:
@@ -263,7 +264,10 @@ def Insert_data(request):
                 if form.cleaned_data['vdo']:
                     newimg = VideoLoc(place_id=place_id ,vedioLocation=request.FILES['file'] , status = "Approved")
                     newimg.save()
-                
+                # data_form = myappForm()                 # loading all the forms for place data
+                # form  = imgVDFileForm()                 # for image and vedio inputs
+                # res = { "data_form" : data_form,"form" : form , "imgData" : {},"message":"Place Add SuccessFully You Can Add More Here"}
+                # return render(request,'add_place.html',{'res':res})          #rendering add_place.html 
                 return redirect("admin_result", num=place_id)      #redirect to admin _results with the newly generated id
 
         return admin_result(request,num=place_id,message="Failed!!! Record has Not been Added...")              # redirecting with error message 
@@ -284,12 +288,13 @@ def admin_result(request,num=0,message=""):
 
             imgData = imageLoc.objects.filter(place_id=int(num))          #loading images and videos of that places using place id
             vdoData = VideoLoc.objects.filter(place_id=int(num))
+            desData=Description.objects.filter(place_id=int(num),status=0)
             
             form = imgVDFileForm()                                        #loading imgVDFileForm form for taking in new image or vedio input
             message = "Update Place Data Using the Form above . . ." if message == "" else message
 
             values = { "title" : data.title , "description" : data.description , "place_id" : num ,"message" : message ,"latitude":data.latitude,'longitude':data.longitude,'placetitle':data.placetitle,'placevalue':data.placevalue,'placetitle2':data.placetitle2,'placevalue2':data.placevalue2,'placetitle3':data.placetitle3,'placevalue3':data.placevalue3,'placetitle4':data.placetitle4,'placevalue4':data.placevalue4}
-            res = { "data_form" : data_form, "form" : form , "imgData" : imgData, "value":values , "vdoData" : vdoData}
+            res = { "data_form" : data_form, "form" : form , "imgData" : imgData, "value":values , "vdoData" : vdoData,"desData":desData}
             return render(request,'admin_result.html',{'res':res})        #rendering admin_result.html 
 
         else:                                       #if it is a new entry 
@@ -311,7 +316,7 @@ def admin_result(request,num=0,message=""):
 
 
 #this is called by upload function only
-def dbupdater(fptr,hdr,tle,Dscptn):
+def dbupdater(fptr,hdr,tle,Dscptn,lat,longs):
     #checking all the fields
     if hdr:
         dataframe = pd.read_csv(fptr)
@@ -319,14 +324,21 @@ def dbupdater(fptr,hdr,tle,Dscptn):
         dataframe = pd.read_csv(fptr,header = None)
         
     #uploading one by one data from the dataframe of csv to DB
+    j=1
     for row in dataframe.values:
-        title = row[0] if tle else "Not Available"
-        description = row[1] if Dscptn else "Not Available"
-        db_ptr = myapp(
-                        title = title,
-                        description = description
-                    )
-        db_ptr.save()
+        if j !=1 :
+            title = row[0] if tle else "Not Available"
+            description = row[1] if Dscptn else "Not Available"
+            latitude=row[2] if lat else "Not Available"
+            longitude=row[3] if longs else "Not Available"
+            db_ptr = myapp(
+                            title = title,
+                            description = description,
+                            latitude= latitude,
+                            longitude=longitude
+                        )
+            db_ptr.save()
+        j += 1
 
 
 #this is called by csvUpload when form is submitted 
@@ -337,7 +349,7 @@ def upload(request):
             #print(request.POST)
             form = UploadFileForm(request.POST, request.FILES )                #loading form with request parameters
             if form.is_valid():                                                #if valid call dbupdater
-                dbupdater(request.FILES['file'],form.cleaned_data['header'],form.cleaned_data['title'],form.cleaned_data['description'])
+                dbupdater(request.FILES['file'],form.cleaned_data['header'],form.cleaned_data['title'],form.cleaned_data['description'],form.cleaned_data['latitude'],form.cleaned_data['longitude'])
                 return csvUpload(request,"SuccessFully Uploaded")
 
         return csvUpload(request,"Uploading Failed")
@@ -359,11 +371,34 @@ def search_titles(request):
     articles = myapp.objects.filter(title__icontains=str(search_text))
     for a in articles:
         try:
-            image=list(imageLoc.objects.values_list('imageLocation',flat=True).filter(place_id=a.id))
-            for p in range(0,len(image)):
-                image[p]="media/"+str(image[p])
+            image=list(imageLoc.objects.values_list('imageLocation',flat=True).filter(place_id=a.id,status = "Approved"))
+            if not image:
+               image=["static/images/not_image.jpg"] 
+            else:
+                for p in range(0,len(image)):
+                    image[p]="media/"+str(image[p])
         except imageLoc.DoesNotExist:
             image=["static/images/not_image.jpg"]            
+            pass
+        try:
+            video=list(VideoLoc.objects.values_list('vedioLocation',flat=True).filter(place_id=a.id,status="Approved"))
+            if not video:
+                video=["static/images/video_not.jpg"]
+            else:
+                for q in range(0,len(video)):
+                    video[q]="media/"+str(video[q])
+        except VideoLoc.DoesNotExist:
+             video=["static/images/video_not.jpg"]
+             pass
+        try:
+            description=list(Description.objects.values_list('descriptionPlace',flat=True).filter(place_id=a.id,status=1))
+            if not description:
+                description=[" "]
+            else:
+                for l in range(0,len(description)):
+                    description[l]=description[l]
+        except Description.DoesNotExist:
+            description=[" "]
             pass
         artical_dic.update({a.id:
         {
@@ -379,7 +414,9 @@ def search_titles(request):
             'placevalue2':a.placevalue2,
             'placevalue3':a.placevalue3,
             'placevalue4':a.placevalue4,  
-            'image':image
+            'image':image,
+            'video':video,
+            'descriptions':description
         }})
     return render_to_response('ajax_search.html',{'articles':artical_dic})         #rendering these results in the Home
 
@@ -402,11 +439,21 @@ def add_image_data(request):
     if request.method == 'POST':
         form = imgVDFileForm(request.POST, request.FILES )            #loading form for request
         if form.is_valid():                # saving file depending upon there signal if img is true it will be loaded in to images and vice versa
-            if form.cleaned_data['img']:                              
+            if form.cleaned_data['img']: 
+                #update description*/
+                dis=myapp.objects.get(id=form.cleaned_data["place_id"])
+                dis.description=request.POST['description']
+                dis.save()
+                #end#                                
                 newimg = imageLoc(place_id=form.cleaned_data["place_id"] ,imageLocation=request.FILES['file'] , status = "UnApproved")
                 newimg.save()
 
             if form.cleaned_data['vdo']:
+                #update description*/
+                dis=myapp.objects.get(id=form.cleaned_data["place_id"])
+                dis.description=request.POST['description']
+                dis.save()
+                #end#  
                 newimg = VideoLoc(place_id=form.cleaned_data["place_id"] ,vedioLocation=request.FILES['file'] , status = "UnApproved")
                 newimg.save()
 
@@ -431,3 +478,20 @@ def serch_places(request):
             'images': images[0]
         }
         return HttpResponse(json.dumps(response)) 
+def updateDescription(request):
+    if request.method == 'POST':
+        res=Description()
+        res.place_id=request.POST['place_id']
+        res.descriptionPlace=request.POST['description']
+        res.save()
+        return HttpResponse(request.POST['description'])
+
+def ApprovedCards(request):
+    if request.method=='POST':
+        data=Description.objects.filter(id=request.POST['place_id']).update(status=True)
+        return HttpResponse("Card Approved SuccessFully")
+def deleteCards(request):
+    if request.method=='POST':
+        Description.objects.filter(id=request.POST['place_id']).delete()
+        return HttpResponse("Card Delete SuccessFully")
+        
