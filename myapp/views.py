@@ -500,7 +500,7 @@ def uploadFile(request):
         if request.POST['img'] == "1":
             newimg = imageLoc(place_id=request.POST['placeId'] ,imageLocation=request.FILES['file'] , status = "UnApproved")
             newimg.save()
-            return HttpResponse('ok')
+            return HttpResponse("File Uploaded SuccessFully Wait For Approval")
             
         else:
             newimg = VideoLoc(place_id=request.POST['placeId'] ,vedioLocation=request.FILES['file'] , status = "UnApproved")

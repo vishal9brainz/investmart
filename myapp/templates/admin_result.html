@@ -298,7 +298,7 @@ label {
             </div>
         
 
-            <div >
+            <div>
                 <div class="row conatiner"  style="padding-left: 10%;padding-right:10%;">
                     <div >
                         <h3>Users Image and Video</h3>
@@ -331,6 +331,36 @@ label {
                                 {% endfor %}
                             </div>
                         </div>
+                        <div class="" style="width:100%;">
+                            <div id=''>
+                                {% for vdovalues in res.vdoData %}
+                                <div id={{ vdovalues.id }}card class="" style="padding: 20px; float: left;">
+                                    <div class="card"
+                                        style="width: 18rem;min-height: 300px;border-radius: 50px;background-color: lightgrey">
+                                        <div class="" style="height: 280px;">
+                                            <a href="/static/media/{{ vdovalues.vedioLocation  }}">
+                                                <video class="card-img-top" controls
+                                                src="/static/media/{{ vdovalues.vedioLocation }}" alt="Card image cap"
+                                                style="height:100%;border-radius: 20px;"></video>
+                                            </a>
+                                        </div>
+                                        <div class="card-body" style="text-align: center;padding: 3px;">
+                                            <input id={{ vdovalues.id }}status name="search"
+                                                onclick='ajaxFun("{{ vdovalues.id }}","","video")' class="submit-btn1"
+                                                type="button" value="{{ vdovalues.status }}">
+                                            </input>
+                                            <input id={{ vdovalues.id }}delete name="search"
+                                                onclick='ajaxFun("{{ vdovalues.id }}","Delete","video")' class="submit-btn1"
+                                                type="button" value="Delete">
+                                            </input>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
                     </div>
                     
                 </div>
@@ -340,27 +370,7 @@ label {
                 <div class="row conatiner" style="padding-left: 10%;padding-right:10%;" >  
                     <div class="col-12 ">
                             <h3>Users Descriptions</h3>
-                        <div class="" style="width:100%;">
-                            <div id=''>
-                                {% for vdovalues in res.vdoData %}
-                                <div class="" style="padding: 20px; float: left;">
-                                    <div class="card"
-                                        style="width: 18rem;height: 300px;border-radius: 20px;background-color: lightgrey">
-                                        <div class="" style="height: 280px;">
-                                            <video class="card-img-top" controls
-                                                src="/static/media/{{ vdovalues.vedioLocation }}" alt="Card image cap"
-                                                style="height:100%;border-radius: 20px;"></video>
-                                        </div>
-                                        <div class="card-body" style="text-align: center;padding: 3px;">
-                                            <input id={{ vdovalues.id }}status name="search"
-                                                onclick='ajaxFun("{{ vdovalues.id }}","{{ vdovalues.status }}","video")'
-                                                class="btn btn-primary" type="button" value="{{ vdovalues.status }}">
-                                            </input>
-                                        </div>
-                                    </div>
-                                </div>
-                                {% endfor %}
-                            </div>
+                        <div class="" style="width:100%;">                   
                             <div id=''>
                                     {% for a in res.desData %}
                                     <div style="width: 18rem;
