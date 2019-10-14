@@ -346,6 +346,7 @@ function searchSuccess(data, textStatus, jqXHR) {
    </script>
    <script type="text/javascript">
       function addToValues(key,value){
+         console.log(key,value);
          $('.desc').text(value);
          $('#placeData').attr('myPlace',key);
       }
