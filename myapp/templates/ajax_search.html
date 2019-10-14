@@ -34,12 +34,14 @@
                             </h5>
                     </button>
                     <div id="demo" style="margin:12px;" class="collapse">
+            
                             {{ v.description }}
                             {% for l in v.descriptions %}
                             <span>{{ l }}</span>
                             {% endfor %}
-                            <span id="desc{{ k }}"></span><i class="fa fa-edit" style="font-weight: 500;font-size: 24px;" data-toggle="modal" data-target="#myModal" onclick="addToValues('{{ k }}','{{v.description}}')"></i>
+                            <span id="desc{{ k }}"></span><i class="fa fa-edit" style="font-weight: 500;font-size: 24px;" data-toggle="modal" data-target="#myModal" onclick="addToValues('{{ k }}')"></i>
                     </div>
+                    <input type="text" value="{{ v.description }}" class="descdata{{ k }}" style="display: none;">
                 </div>
                 <div class="col">
                         <div class="row"><br>
