@@ -75,7 +75,7 @@
               padding-right: 32px;margin-top: 18px;" >
                 <input type="button" class="btn btn-success" value="View On Map" style="margin-right: 30px;" id="viewMap" lat="{{ v.latitude}}" long="{{ v.longitude }}">
                 <!-- <a href="home/{{ k }}/" class="btn btn-primary">Explore more</a> -->
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalimage">Upload Image/Video</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalimage" onclick="setPlace('{{ k }}')">Upload Image/Video</button>
             </div>
         </div>
     </div>
@@ -93,26 +93,26 @@
                                 <div class="fieldWrapper">
                                 
                                     <label style="font-weight: 700;" for="{{ res.form.file.id_for_label }}">Choose Image/Video :</label>
-                                    <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                                    <input type="file" class="form-control-file" id="myfile" >
                                 </div>
                             </div>
                             <div class="row"  style="margin: 12px" >
                                 <div class="fieldWrapper">
                                     
                                     <label style="font-weight: 700;" for="{{ res.form.img.id_for_label }}">Is this a Image ?:</label>
-                                    <input type="checkbox" value="">
+                                    <input type="checkbox" id="isImage" checked>
                                 </div>
                             </div>
                             <div class="row" style="margin: 12px" >
                                 <div class="fieldWrapper">
                                     
                                     <label style="font-weight: 700;" for="{{ res.form.vdo.id_for_label }}">Is this a Video ?</label>
-                                    <input type="checkbox" value="">
+                                    <input type="checkbox" id="isVideo">
                                 </div>
                             </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="submit-btn" data-dismiss="modal">Submit</button>
+                  <button type="button" class="submit-btn" data-dismiss="modal" id="UploadImage">Submit</button>
                 </div>
               </div>
               

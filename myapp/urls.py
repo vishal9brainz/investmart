@@ -28,6 +28,7 @@ urlpatterns = [
     path(r'updateDescription',views.updateDescription,name='updateDescription'),
     path(r'unapproved',views.ApprovedCards,name='ApprovedCards'),
     path(r'deletecards',views.deleteCards,name='deleteCards'),
+    path(r'uploadFile',views.uploadFile,name='uploadFile'),
     url(r'status',views.status,name='status'),
    
 

@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login
 from django.http import JsonResponse
 import pandas as pd
 from django.forms import formset_factory
+import os
 import json
 
 
@@ -494,4 +495,14 @@ def deleteCards(request):
     if request.method=='POST':
         Description.objects.filter(id=request.POST['place_id']).delete()
         return HttpResponse("Card Delete SuccessFully")
-        
+def uploadFile(request):
+    if request.method == 'POST' and request.is_ajax():
+        if request.POST['img'] == "1":
+            newimg = imageLoc(place_id=request.POST['placeId'] ,imageLocation=request.FILES['file'] , status = "UnApproved")
+            newimg.save()
+            return HttpResponse('ok')
+            
+        else:
+            newimg = VideoLoc(place_id=request.POST['placeId'] ,vedioLocation=request.FILES['file'] , status = "UnApproved")
+            newimg.save()
+    return HttpResponse("File Uploaded SuccessFully Wait For Approval")

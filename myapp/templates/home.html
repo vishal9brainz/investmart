@@ -349,6 +349,9 @@ function searchSuccess(data, textStatus, jqXHR) {
          $('.desc').text(value);
          $('#placeData').attr('myPlace',key);
       }
+      function setPlace(key){
+         $('#UploadImage').attr('placeId',key);
+      }
    </script>
    <script type="text/javascript">
     $(document).on('click','#placeData',function(){
@@ -374,6 +377,55 @@ function searchSuccess(data, textStatus, jqXHR) {
          }
       });
 
+    });
+    $(document).on('click','#UploadImage',function(){
+      var file=$('#myfile').prop('files')[0];
+         if(file){
+            var data=new FormData();
+            data.append('file',file);
+            data.append('csrfmiddlewaretoken', $('input[name=csrfmiddlewaretoken]').val());
+            data.append('placeId',$(this).attr('placeId'));
+            data.append('img',($('#isImage').is(':checked')) ? 1 : 0)
+            data.append('vdo',($('#isVideo').is(':checked')) ? 1 : 0)
+            $.ajax({
+               type        : "POST",
+               url         : "uploadFile",
+               data        : data,
+               async       : true,
+               cache       : false,
+               contentType : false,
+               processData : false,
+               enctype     : 'multipart/form-data',
+               success:function(response){
+                 alert(response);
+                 $("#myModalimage .close").trigger('click');
+               }
+            });
+         }else{
+            alert("Please Select File");
+            return false;
+         }  
+    });
+    $(document).on('click','#isImage',function(){
+      if($(this).is(':checked')){
+         $('#isVideo').prop('checked',false);
+      }else{
+         $('#isVideo').prop('checked',true);
+      }
+    });
+    $(document).on('click','#isVideo',function(){
+      if($(this).is(':checked')){
+         $('#isImage').prop('checked',false);
+      }else{
+         $('#isImage').prop('checked',true);
+      }
+    });
+    $(document).on('change','#myfile',function() {
+        var fileExtension = ['jpeg', 'jpg', 'png', 'gif', 'bmp','mp4','3gp'];
+        if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+            alert("Only formats are allowed : "+fileExtension.join(', '));
+            $(this).val('');
+        }
     });
    </script>
 </body>
