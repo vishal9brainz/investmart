@@ -30,7 +30,8 @@ urlpatterns = [
     path(r'deletecards',views.deleteCards,name='deleteCards'),
     path(r'uploadFile',views.uploadFile,name='uploadFile'),
     url(r'status',views.status,name='status'),
-   
+    url(r'forget_password',views.forgetDetails,name='forgetDetails'),
+    path('send_password_link',views.sendResetLink,name='sendResetLink')
 
 
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

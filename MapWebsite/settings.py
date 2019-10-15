@@ -135,7 +135,12 @@ MEDIA_URL='/media/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'vishalpambhar1000@gmail.com'
+EMAIL_HOST_PASSWORD = 'Ravi@1996'
+EMAIL_PORT = 587
 
 LOGIN_REDIRECT_URL = 'adminpanel'
 LOGOUT_REDIRECT_URL = 'home'

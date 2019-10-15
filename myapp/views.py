@@ -8,6 +8,8 @@ from django.http import JsonResponse
 import pandas as pd
 from django.forms import formset_factory
 import os
+from django.contrib.auth.models import User
+from django.core.mail import BadHeaderError, send_mail
 import json
 
 
@@ -374,22 +376,22 @@ def search_titles(request):
         try:
             image=list(imageLoc.objects.values_list('imageLocation',flat=True).filter(place_id=a.id,status = "Approved"))
             if not image:
-               image=["static/images/not_image.jpg"] 
+               image=["static/images/image_icon.png"] 
             else:
                 for p in range(0,len(image)):
                     image[p]="media/"+str(image[p])
         except imageLoc.DoesNotExist:
-            image=["static/images/not_image.jpg"]            
+            image=["static/images/image_icon.png"]            
             pass
         try:
             video=list(VideoLoc.objects.values_list('vedioLocation',flat=True).filter(place_id=a.id,status="Approved"))
             if not video:
-                video=["static/images/video_not.jpg"]
+                video=["static/images/video_icon.png"]
             else:
                 for q in range(0,len(video)):
                     video[q]="media/"+str(video[q])
         except VideoLoc.DoesNotExist:
-             video=["static/images/video_not.jpg"]
+             video=["static/images/video_icon.png"]
              pass
         try:
             description=list(Description.objects.values_list('descriptionPlace',flat=True).filter(place_id=a.id,status=1))
@@ -506,3 +508,17 @@ def uploadFile(request):
             newimg = VideoLoc(place_id=request.POST['placeId'] ,vedioLocation=request.FILES['file'] , status = "UnApproved")
             newimg.save()
     return HttpResponse("File Uploaded SuccessFully Wait For Approval")
+
+def forgetDetails(request):
+    return render(request,'forget_password.html')
+
+def sendResetLink(request):
+    userList =User.objects.values_list('email',flat=True).filter(email=request.POST['email'])
+    if not userList:
+        return HttpResponse("Email Not Found In Our System Please Try To Different")
+    else:
+       link='{% url "tes" %}'
+       res = send_mail("Reset Password Link",link, "vishalpambhar1000@gmail.com", userList)
+       return HttpResponse('Mail Send SuccessFully Please Check Your Email')
+        
+    
