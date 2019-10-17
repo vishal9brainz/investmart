@@ -10,6 +10,7 @@ from django.forms import formset_factory
 import os
 from django.contrib.auth.models import User
 from django.core.mail import BadHeaderError, send_mail
+from django.core.mail import EmailMultiAlternatives
 import json
 
 
@@ -517,8 +518,15 @@ def sendResetLink(request):
     if not userList:
         return HttpResponse("Email Not Found In Our System Please Try To Different")
     else:
-       link='{% url "tes" %}'
-       res = send_mail("Reset Password Link",link, "vishalpambhar1000@gmail.com", userList)
-       return HttpResponse('Mail Send SuccessFully Please Check Your Email')
+       return HttpResponse('ok')
+    #    link='{% url "tes" %}'
+    #    res = send_mail("Reset Password Link",link, "vishalpambhar1000@gmail.com", userList)
+    #    subject, from_email, to = 'Reset Password', 'vishalpambhar1000@gmail.com', 'vishal.9brainz@gmail.com'
+    #    text_content = 'Click Below Link To Reset Your Password.'
+    #    html_content = '<a href="'+url+'">click here</a>'
+    #    msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+    #    msg.attach_alternative(html_content, "text/html")
+    #    msg.send()
+    #    return HttpResponse('Mail Send SuccessFully Please Check Your Email')
         
     
