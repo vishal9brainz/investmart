@@ -69,11 +69,14 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                 'responsive.context_processors.device_info',
             ],
         },
     },
 ]
+TEMPLATE_CONTEXT_PROCESSORS = (
+    # Other context processors included here
+    'responsive.context_processors.device_info',
+)
 DEFAULT_BREAKPOINTS = {
     'phone': 480,
     'tablet': 767,

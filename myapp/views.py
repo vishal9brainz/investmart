@@ -13,6 +13,7 @@ from django.core.mail import BadHeaderError, send_mail
 from django.core.mail import EmailMultiAlternatives
 from django.urls import reverse
 import json
+import responsive
 
 
 
