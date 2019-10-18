@@ -54,6 +54,7 @@ MIDDLEWARE = [
 ]
 MIDDLEWARE_CLASSES = (
     'xframeoptions.middleware.Header',
+    'responsive.middleware.DeviceInfoMiddleware',
 )
 ROOT_URLCONF = 'MapWebsite.urls'
 X_FRAME_OPTIONS = 'Allow'
@@ -68,10 +69,16 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                 'responsive.context_processors.device_info',
             ],
         },
     },
 ]
+DEFAULT_BREAKPOINTS = {
+    'phone': 480,
+    'tablet': 767,
+    'desktop': None,
+}
 
 WSGI_APPLICATION = 'MapWebsite.wsgi.application'
 

@@ -355,7 +355,6 @@ function createMap () {
 
 //Response of the Ajax is rendered in html 
 function searchSuccess(data, textStatus, jqXHR) {
-    console.log(data);
     $('#search-results').html(data);
 }
 function loadDoc(place) {
@@ -363,7 +362,6 @@ function loadDoc(place) {
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       var data = JSON.parse(this.responseText)
-      console.log(data);
       var poly=[];
       var mydata=[];
       s=0;
@@ -406,8 +404,6 @@ function loadDoc(place) {
   xhttp.open("GET", "https://nominatim.openstreetmap.org/search?q='"+place+"'&format=json&polygon=1&addressdetails=1", true);
   xhttp.send();
 }
-   
-
    </script>
     <script>
             $(".mobile.menu-link").on("click", function(){
