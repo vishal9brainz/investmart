@@ -31,7 +31,9 @@ urlpatterns = [
     path(r'uploadFile',views.uploadFile,name='uploadFile'),
     url(r'status',views.status,name='status'),
     url(r'forget_password',views.forgetDetails,name='forgetDetails'),
-    path('send_password_link',views.sendResetLink,name='sendResetLink')
+    path('send_password_link',views.sendResetLink,name='sendResetLink'),
+    path('resetPassword',views.resetPassword,name='resetPassword'),
+    path('changePasswords',views.changePasswords,name='changePasswords')
 
 
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

@@ -11,6 +11,7 @@ import os
 from django.contrib.auth.models import User
 from django.core.mail import BadHeaderError, send_mail
 from django.core.mail import EmailMultiAlternatives
+from django.urls import reverse
 import json
 
 
@@ -518,15 +519,24 @@ def sendResetLink(request):
     if not userList:
         return HttpResponse("Email Not Found In Our System Please Try To Different")
     else:
-       return HttpResponse('ok')
-    #    link='{% url "tes" %}'
-    #    res = send_mail("Reset Password Link",link, "vishalpambhar1000@gmail.com", userList)
-    #    subject, from_email, to = 'Reset Password', 'vishalpambhar1000@gmail.com', 'vishal.9brainz@gmail.com'
-    #    text_content = 'Click Below Link To Reset Your Password.'
-    #    html_content = '<a href="'+url+'">click here</a>'
-    #    msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-    #    msg.attach_alternative(html_content, "text/html")
-    #    msg.send()
-    #    return HttpResponse('Mail Send SuccessFully Please Check Your Email')
+       subject, from_email, to = 'Reset Password', 'vishalpambhar1000@gmail.com',request.POST['email']
+       text_content = 'Click Below Link To Reset Your Password.'
+       html_content = '<a href="'+request.build_absolute_uri('resetPassword')+'?email='+request.POST['email']+'">click here</a>'
+       msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+       msg.attach_alternative(html_content, "text/html")
+       msg.send()
+       return HttpResponse('Email Send SuccessFully Please Check Your Email')
+def resetPassword(request):
+    return render(request,'resetPassword.html')
+def changePasswords(request):
+    userLists =User.objects.values_list('email',flat=True).filter(email=request.POST['email'])
+    if not userLists:
+         return HttpResponse("Email Not Found In Our System Please Try To Different")
+    else:
+        u=User.objects.get(email=request.POST['email'])
+        u.set_password(request.POST['password'])
+        u.save()
+        return redirect(index,"Password Updated")
+
         
     
