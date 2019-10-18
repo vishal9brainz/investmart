@@ -44,5 +44,6 @@ function createMap () {
     
     map.fitBounds(bounds);
   });
+
 }  
 
